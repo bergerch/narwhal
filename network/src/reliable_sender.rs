@@ -128,7 +128,7 @@ impl Connection {
             Self {
                 address,
                 receiver,
-                retry_delay: 200,
+                retry_delay: 1000,
                 buffer: VecDeque::new(),
             }
             .run()
@@ -163,7 +163,7 @@ impl Connection {
                         tokio::select! {
                             // Wait an increasing delay before attempting to reconnect.
                             () = &mut timer => {
-                                delay = min(2*delay, 60_000);
+                                delay = min(2*delay, 10_000);
                                 retry +=1;
                                 break 'waiter;
                             },
